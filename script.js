@@ -257,5 +257,35 @@ document.addEventListener("DOMContentLoaded", function () {
         mobileMenuButton.setAttribute("aria-expanded", "false");
       }
     });
-    
+
+    // Add this to your existing DOMContentLoaded event listener
+    document.addEventListener("DOMContentLoaded", function () {
+      // Handle all consultation button clicks
+      const consultationButtons = document.querySelectorAll(
+        '.hero-cta a, .services-cta a, a[href*="#contact"]'
+      );
+
+      consultationButtons.forEach((button) => {
+        button.addEventListener("click", function (e) {
+          e.preventDefault();
+
+          // Find the contact section
+          const contactSection = document.querySelector(".contact.section");
+
+          if (contactSection) {
+            // Smooth scroll to contact section
+            contactSection.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+
+            // Optional: Add focus to the first form input
+            const firstInput = contactSection.querySelector("input, textarea");
+            if (firstInput) {
+              firstInput.focus();
+            }
+          }
+        });
+      });
+    });
   }
