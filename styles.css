@@ -8,32 +8,6 @@
   --accent: #00ff00;
 }
 
-/* Keyframe animation */
-@keyframes flyIn {
-  0% {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Fly-in effect - hidden by default */
-.fly-in {
-  opacity: 0;
-  transform: translateY(30px);
-  /* Initial position */
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-
-.fly-in.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 /* Hero Section */
 .hero-section {
   position: relative;
@@ -104,6 +78,7 @@
   max-width: 200px;
   height: auto;
   filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+  border-radius: 12px;
 }
 
 .headshot {
@@ -479,7 +454,8 @@
   background-color: rgba(255, 255, 255, 0.95);
   color: #000;
   margin: 1rem;
-  padding: 1.5rem;
+  padding: 0.5rem;
+  padding-top: 0rem;
   border-radius: 16px;
   max-width: 600px;
   width: 85%;
@@ -496,24 +472,30 @@
 }
 
 .modal-header {
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0;
 }
 
 .modal-title {
+  margin: 0;
+    /* Remove default margin on the title */
   color: var(--primary);
   font-size: 1.5rem;
   margin-bottom: 1rem;
+  font-weight: bold;
 }
 
 .modal-body {
   color: #000000;
   /* Black text */
   line-height: 1.6;
+  margin-top: 0;
+  padding-top: 0.5rem;
 }
 
 .modal-body p {
   margin: 10px 0;
-  line-height: 1.5;
+  line-height: 1.25;
     }
 
 .modal-body ul {
