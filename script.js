@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // ====================================
   // Initialize all functionality
   // ====================================
+  initScrollAnimations();
   initBackgroundSlider();
   initTestimonialsCarousel();
   initContactForm();
@@ -13,6 +14,31 @@ document.addEventListener("DOMContentLoaded", function () {
   initLazyLoading();
   initMobileMenu();
   initConsultationButtons();
+
+
+  // Function to initialize the scroll animations
+  function initScrollAnimations() {
+    const sections = document.querySelectorAll(".section"); // Select all sections
+
+    const observerOptions = {
+      threshold: 0.2, // Trigger animation when 20% of the section is visible
+      rootMargin: "0px 0px -50px 0px", // Adds slight offset to trigger earlier
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("active"); // Trigger animation
+          observer.unobserve(entry.target); // Stop observing after animation
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach((section) => {
+      section.classList.add("fly-in"); // Ensure all sections start hidden
+      observer.observe(section); // Start observing each section
+    });
+  }
 
   // ====================================
   // Background Slider Functionality
