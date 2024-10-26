@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // ====================================
   // Initialize all functionality
   // ====================================
-  initScrollAnimations();
+
   initBackgroundSlider();
   initTestimonialsCarousel();
   initContactForm();
@@ -14,31 +14,6 @@ document.addEventListener("DOMContentLoaded", function () {
   initLazyLoading();
   initMobileMenu();
   initConsultationButtons();
-
-
-  // Function to initialize the scroll animations
-  function initScrollAnimations() {
-    const sections = document.querySelectorAll(".section"); // Select all sections
-
-    const observerOptions = {
-      threshold: 0.2, // Trigger animation when 20% of the section is visible
-      rootMargin: "0px 0px -50px 0px", // Adds slight offset to trigger earlier
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("active"); // Trigger animation
-          observer.unobserve(entry.target); // Stop observing after animation
-        }
-      });
-    }, observerOptions);
-
-    sections.forEach((section) => {
-      section.classList.add("fly-in"); // Ensure all sections start hidden
-      observer.observe(section); // Start observing each section
-    });
-  }
 
   // ====================================
   // Background Slider Functionality
@@ -148,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Form submission
-    contactForm.addEventListener("submit", function (e) {
+    contactForm.addEventListener("submit", async function (e) {
       e.preventDefault();
       let isValid = true;
 
@@ -161,15 +136,48 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (isValid) {
         const formData = new FormData(this);
-        console.log(
-          "Form is valid, ready to submit!",
-          Object.fromEntries(formData)
-        );
-        showMessage(
-          "Thank you for your message. We will get back to you soon!",
-          "success"
-        );
-        this.reset();
+        const submitButton = this.querySelector('button[type="submit"]');
+        const originalButtonText = submitButton.textContent;
+
+        try {
+          // Disable the submit button and show loading state
+          submitButton.disabled = true;
+          submitButton.textContent = "Sending...";
+
+          const response = await fetch("/api/send-email", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(Object.fromEntries(formData)),
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const result = await response.json();
+
+          if (result.success) {
+            showMessage(
+              "Thank you for your message. We will get back to you soon!",
+              "success"
+            );
+            this.reset();
+          } else {
+            throw new Error(result.message || "Failed to send message");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          showMessage(
+            "Sorry, there was a problem sending your message. Please try again later or contact us directly.",
+            "error"
+          );
+        } finally {
+          // Re-enable the submit button and restore original text
+          submitButton.disabled = false;
+          submitButton.textContent = originalButtonText;
+        }
       }
     });
   }

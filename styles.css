@@ -66,21 +66,29 @@
   margin: 0 auto;
 }
 
+/* Logo container base styles */
 .logo-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 2rem;
   margin-bottom: 2rem;
+  width: 100%;
+  max-width: 800px;
 }
 
 .logo {
-  max-width: 200px;
-  height: auto;
+  width: 180px;
+  /* Increased from 150px */
+  height: 180px;
+  /* Increased from 150px */
+  object-fit: contain;
   filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
-  border-radius: 12px;
+  border-radius: 16px;
+  /* Increased from 12px for more pronounced rounding */
 }
 
+/* Headshot styles */
 .headshot {
   width: 200px;
   height: 200px;
@@ -201,15 +209,39 @@
   }
 }
 
+/* Center logo container and headshot by default */
+.logo-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  /* Center items in the middle */
+}
+
+/* Top logos container */
+.top-logos {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
 @media (max-width: 768px) {
   .about-container {
     grid-template-columns: 1fr;
   }
   
-  .logo-container {
-    flex-direction: column;
-    gap: 1rem;
-  }
+    .logo-container {
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .top-logos {
+      flex-direction: row;
+      justify-content: center;
+      width: 100%;
+    }
   
   .hero-title {
     font-size: 1.75rem;
@@ -222,6 +254,48 @@
   .hero-cta a {
     padding: 0.875rem 1.75rem;
     font-size: 1rem;
+  }
+    
+    .logo {
+      width: 100px;
+      /* Adjusted from 120px */
+      height: 100px;
+      /* Adjusted from 120px */
+    }
+  
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+  .logo {
+      width: 110px;
+      /* Adjusted from 100px */
+      height: 110px;
+      /* Adjusted from 100px */
+    }
+
+  .headshot {
+    width: 180px;
+    height: 180px;
+  }
+}
+
+/* Added new breakpoint for very small screens */
+@media (max-width: 390px) {
+  .logo {
+    width: 90px;
+    /* Further reduced size */
+    height: 90px;
+  }
+
+  .headshot {
+    width: 140px;
+    height: 140px;
+  }
+
+  .top-logos {
+    gap: 0.25rem;
+    /* Minimal gap */
   }
 }
 
